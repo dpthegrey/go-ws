@@ -69,9 +69,9 @@
 
           <input type="hidden" name="action" id="action" />
 
-          <hr />
+          <div id="status" class="mt-2 float-end"></div>
 
-          <div id="output" class="chatbox"></div>
+          <div id="output" class="chatbox mt-3"></div>
         </div>
         <div class="col-md-4">
           <h3>Who's Online</h3>
@@ -116,16 +116,23 @@
         reconnectInterval: 3000,
       });
 
+      const offline = `<span class="badge bg-danger">Not Connected<span>`;
+      const online = `<span class="badge bg-success">Connected<span>`;
+      let statusDiv = document.getElementById("status");
+
       socket.onopen = () => {
         console.log("Successfully connected");
+        statusDiv.innerHTML = online;
       };
 
       socket.onclose = () => {
         console.log("Connection closed");
+        statusDiv.innerHTML = offline;
       };
 
       socket.onerror = (error) => {
         console.log("There was an error");
+        statusDiv.innerHTML = offline;
       };
 
       socket.onmessage = (msg) => {
